@@ -1,0 +1,213 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*::-moz-selection {
+  background-color: rgba(248, 64, 208, 0.534);
+  color: #ffd900;
+}
+
+*::selection {
+  background-color: rgba(248, 64, 208, 0.534);
+  color: #ffd900;
+}
+
+:root {
+  --avg-padding: 20px;
+  --fuente: "Poppins", sans-serif;
+  --avg-color: #2c2c2c;
+  --light-color: #CCCCCC;
+}
+
+body {
+  font-family: var(--fuente);
+}
+
+.navBar-container {
+  display: flex;
+  justify-content: center;
+}
+.navBar-container .navBar {
+  color: var(--avg-color);
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 0px 24px;
+  width: 95%;
+  border-bottom: 2px solid rgba(34, 34, 34, 0.6705882353);
+}
+.navBar-container .navBar .navBar-logo {
+  position: relative;
+  width: 190px;
+  height: 26px;
+  overflow: hidden;
+}
+.navBar-container .navBar .navBar-logo .logo {
+  line-height: 1.2em;
+  font-size: 20px;
+}
+.navBar-container .navBar .navBar-logo .logo .change {
+  position: absolute;
+  cursor: pointer;
+  margin-left: 5px;
+  transition: all 0.3s ease-in-out;
+}
+.navBar-container .navBar .navBar-logo .logo .change:before {
+  bottom: 24px;
+  content: "Santiago";
+  text-transform: none;
+  position: absolute;
+  font-weight: 300;
+  font-style: italic;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.navBar-container .navBar .navBar-logo .logo .change:hover {
+  transform: translateY(100%);
+}
+.navBar-container .navBar .navBar-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.navBar-container .navBar .navBar-menu .menu-list {
+  display: flex;
+  flex-direction: row;
+}
+.navBar-container .navBar .navBar-menu .menu-list .list-item {
+  list-style: none;
+  display: inline-block;
+  padding: 0px 18px;
+}
+.navBar-container .navBar .navBar-menu .menu-list .list-item:nth-child(3) {
+  border-right: 2px solid rgba(34, 34, 34, 0.6705882353);
+  padding-right: 30px;
+}
+.navBar-container .navBar .navBar-menu .menu-list .list-item:nth-child(4) {
+  padding-left: 30px;
+}
+.navBar-container .navBar .navBar-menu .menu-list .list-item:last-child {
+  padding-right: 1px;
+}
+.navBar-container .navBar .navBar-menu .menu-list .list-item .item-link {
+  font-size: 18px;
+  line-height: 1.75em;
+  height: 1.7em;
+  position: relative;
+  overflow: hidden;
+}
+.navBar-container .navBar .navBar-menu .menu-list .list-item .item-link::after {
+  content: "";
+  background-color: rgba(44, 44, 44, 0.6862745098);
+  width: 100%;
+  height: 2px;
+  position: absolute;
+  left: 0;
+  bottom: 1px;
+  transform: translate(-100%);
+  transition: all 300ms ease-in-out;
+}
+.navBar-container .navBar .navBar-menu .menu-list .list-item .item-link:hover {
+  cursor: pointer;
+}
+.navBar-container .navBar .navBar-menu .menu-list .list-item .item-link:hover::after {
+  transform: translate(0%);
+}
+.navBar-container .navBar .navBar-menu .menu-list .list-item .bx {
+  font-size: 25px;
+  margin-top: 2px;
+  color: var(--avg-color);
+}
+
+/* HERO SECTION */
+.hero-container {
+  height: 85vh;
+  width: 90%;
+  margin: auto;
+  padding-top: 5.5vw;
+}
+.hero-container .hero {
+  display: flex;
+}
+.hero-container .hero .text-section .title {
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 100px;
+  line-height: 1.12em;
+  color: var(--avg-color);
+}
+.hero-container .hero .text-section .title .title-span {
+  display: block;
+}
+.hero-container .hero .text-section .based .based-p {
+  padding: 10px 0 20px;
+  color: rgba(34, 34, 34, 0.5254901961);
+  font-size: 45px;
+}
+.hero-container .hero .text-section .description .description-span {
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--avg-color);
+}
+
+/* LOCOMOTIVE TEXT TO RIGHT: HOME */
+.text-right {
+  line-height: 1em;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  bottom: 10px;
+  white-space: nowrap;
+}
+.text-right .right-text {
+  color: rgba(34, 34, 34, 0.2117647059);
+  font-size: 9rem;
+  letter-spacing: 1px;
+  margin-left: 20px;
+}
+
+/* BIO HOME */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container .bio-container {
+  width: 95%;
+  height: 35vh;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+}
+.container .bio-container .space {
+  width: 50%;
+  background-color: red;
+}
+.container .bio-container .bio {
+  width: 50%;
+}
+.container .bio-container .bio .bio-title {
+  display: flex;
+  flex-direction: column;
+  color: rgba(44, 44, 44, 0.8431372549);
+}
+.container .bio-container .bio .bio-title .name {
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 1em;
+}
+.container .bio-container .bio .bio-title .age {
+  font-weight: 400;
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+.container .bio-container .bio .bio-info .info {
+  font-size: 20px;
+  font-weight: 300;
+}/*# sourceMappingURL=App.css.map */

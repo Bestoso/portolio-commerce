@@ -1,88 +1,68 @@
-import React, { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import { useThemeContext } from '../../Context/ThemeContext';
+import { useCartContext } from '../../Context/CartContext';
 
 export const NavBar = () => {
 
-/*     const navigate = useNavigate();
+    const location = useLocation();
+    const { bgColor, setBgColor } = useThemeContext();
+    const { cart, quantity } = useCartContext();
 
-    const [loaderClass, setLoaderClass] = useState('loader-first');
-    const [loaderSecondClass, setLoaderSecondClass] = useState('loader-second');
-
-    const homeRef = useRef(null);
-    const aboutRef = useRef(null);
-    const contactRef = useRef(null);
-
-    const loaderFirstTransition = () => {
-        if (loaderClass === 'loader-first' && loaderSecondClass === 'loader-second'){
-            setLoaderClass('loader-first active')
-            setLoaderSecondClass('loader-second active')
-        } else {
-            setLoaderClass('loader-first');
-            setLoaderSecondClass('loader-second')
+    const setToDefault = () => {
+        if (location.pathname !== '/products/'){
+            setBgColor('default')
         }
-        setTimeout(() => {
-            setLoaderClass('first-loader gone')
-            setLoaderSecondClass('first-loader gone')
-        }, 2000)
-        setTimeout(() => {
-            setLoaderClass('loader-first')
-            setLoaderSecondClass('loader-second');
-        }, 3500)
     }
 
-    const navTo = (e) => {
-        if (e.target.innerText === 'HOME'){
-            loaderFirstTransition();
-            setTimeout(() => {
-                navigate('/')
-            }, 1500)
-        } else if (e.target.innerText === 'ABOUT ME'){
-            loaderFirstTransition();
-            setTimeout(() => {
-                navigate('/about-me')
-            }, 1500)
-        } else {
-            loaderFirstTransition();
-            setTimeout(() => {
-                navigate('/contact')
-            }, 1500)
-        }
-    } */
+    useEffect(() => {
+        setToDefault();
+    }, [location])
 
     return (
         <>
-            <div className='navBar-container'
-                data-scroll-section>
-                <header className='navBar' data-scroll>
+            <div className={'navBar-container ' + bgColor}
+            data-scroll-section
+            data-scroll>
+                <header className={'navBar ' + bgColor}>
                     <div className='navBar-logo'>
                         <p className='logo'> bestoso <span className='change'> &copy;2022</span></p>
                     </div>
                     <nav className='navBar-menu'>
                         <ul className='menu-list'>
                             <li className='list-item'>
-                                <p className='item-link'>
+                                <NavLink to='/inicio' className={'item-link ' + bgColor}>
                                     home
-                                </p>
+                                </NavLink>
                             </li>
                             <li className='list-item'>
-                                <p className='item-link'>
+                                <NavLink to='/about-me' className={'item-link ' + bgColor}>
                                     about me
-                                </p>
+                                </NavLink>
                             </li>
-                            <li className='list-item'>
-                                <p className='item-link'>
+                            <li className={'list-item ' + bgColor}>
+                                <NavLink  to='contact' className={'item-link ' + bgColor}>
                                     contact
-                                </p>
+                                </NavLink>
                             </li>
                             <li className='list-item'>
-                                <i className='bx bxl-twitter'></i>
+                                <i className={'bx bxl-twitter ' + bgColor }></i>
                             </li>
                             <li className='list-item'>
-                                <i className='bx bxl-instagram-alt' ></i>
+                                <i className={'bx bxl-instagram-alt ' + bgColor}></i>
                             </li>
                             <li className='list-item'>
-                                <i className='bx bxl-github' ></i>
+                                <i className={'bx bxl-github ' + bgColor}></i>
                             </li>
+                            {
+                                cart.length > 0 &&
+                                <li className='list-item'>
+                                    <NavLink to='/cart' className={'item-link ' + bgColor}>
+                                        <i className={'bx bx-cart ' + bgColor}></i>
+                                        <span className='cart-quantity'>{ quantity }</span>
+                                    </NavLink>
+                                </li>
+                            }
                         </ul>
                     </nav>
                 </header>

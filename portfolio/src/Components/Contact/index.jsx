@@ -1,7 +1,12 @@
 import React from 'react'
 
 export const Contact = () => {
+
   return (
-    <div>Contact</div>
+    <div
+    className='contact-section'
+    data-scroll-section>
+      Contact
+    </div>
   )
 }

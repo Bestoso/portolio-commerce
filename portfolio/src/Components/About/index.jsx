@@ -1,9 +1,14 @@
 import React from 'react'
-
-export const About = () => {
+import { motion } from 'framer-motion';
+export const About = () => {    
     return (
-        <div
-            data-scroll-section
-        >About</div>
+        <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className='about-section'
+        data-scroll-section>
+            About
+        </motion.div>
     )
 }

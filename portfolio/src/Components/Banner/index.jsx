@@ -3,10 +3,10 @@ import React from 'react'
 export const Banner = () => {
     return (
 
-        <section className='hero-container'
-        data-scroll-section>
-            <div className='hero' data-scroll>
-                <div className='text-section'>
+        <section className='hero-container'>
+            <div className='hero'>
+                <div className='text-section' data-scroll
+                data-scroll-speed='1'>
                     <h1 className='title'>
                         <span className='title-span first'> s.bestoso </span>
                         <span className='title-span second'> front developer. </span>

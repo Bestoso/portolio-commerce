@@ -612,7 +612,7 @@ body {
                     flex-direction: column;
 
                     &::after{
-                        content: "Buy now";
+                        content: "Add to cart";
                         position: absolute;
                         width: 100%;
                         height: 100%;
@@ -636,5 +636,166 @@ body {
             }
         }
     }
+}
 
+.cart__container{
+    height: 100vh;
+    overflow: hidden;
+    margin-bottom: 40px;
+    .main__text{
+        height: 50vh;
+        padding: 40px;
+        .title{
+            font-size: 76px;
+            line-height: 1em;
+            color: var(--avg-color);
+        }
+        .sub{
+            font-size: 30px;
+            color: var(--avg-color);
+        }
+    }
+    .cart__form{
+        padding: 40px;
+        height: 50vh;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .order__container{
+            width: 50%;
+            .total-price{
+                font-size: 30px;
+                color: var(--avg-color);
+            }
+            .order__text{
+                font-size: 20px;
+                color: var(--avg-color);
+                margin-bottom: 10px;
+                .title{
+                    font-size: 30px;
+                    color: var(--avg-color);
+                }
+                .price{
+                    font-size: 20px;
+                    color: var(--avg-color);
+                }
+                .quantity{
+                    font-size: 20px;
+                    color: var(--avg-color);
+                }
+            }
+            .order__form{
+                display: flex;
+                flex-direction: column;
+                .input__container{
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 20px;
+                    .input__title{
+                        font-size: 20px;
+                        color: var(--avg-color);
+                        margin-bottom: 10px;
+                    }
+                    .input__field{
+                        height: 40px;
+                        width: 300px;
+                        border: 1px solid var(--avg-color);
+                        border-radius: 5px;
+                        padding: 0px 10px;
+                        font-size: 20px;
+                        color: var(--avg-color);
+                    }
+                }
+            }
+        }
+        .form__container{
+            width: 50%;
+            form{
+                display: flex;
+                flex-direction: column;
+                .button__container{
+                    display: flex;
+                    align-items: center;
+                    margin-top: 5px;
+                    .button{
+                        width: 200px;
+                        height: 50px;
+                        border: none;
+                        background-color: var(--avg-color);
+                        color: var(--white);
+                        margin-right: 15px;
+                        font-size: 20px;
+                        cursor: pointer;
+                        &:hover{
+                            background-color: var(--white);
+                            color: var(--avg-color);
+                        }
+                    }
+                }
+
+                input{
+                    width: 100%;
+                    height: 40px;
+                    margin-bottom: 20px;
+                    border: none;
+                    border-bottom: 1px solid var(--avg-color);
+                    background-color: transparent;
+                    color: var(--avg-color);
+                    font-size: 20px;
+                    outline: none;
+                    &:focus{
+                        border-bottom: 1px solid var(--avg-color);
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* about section */
+
+.about-section{
+    padding: 40px;
+    .main-container{
+        height: 100vh;
+        width: 100%;
+        padding: 40px;
+        display: flex;
+        justify-content: space-between;
+        .about-container{
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            text-transform: uppercase;
+            font-size: 90px;
+            color: var(--avg-color);
+            font-weight: 400;
+            .about{
+                line-height: 1em;
+            }
+
+            .me{
+                line-height: 1em;
+                margin-left: 250px;
+            }
+        }
+        .about-text{
+            width: 70%;
+            margin-top: 150px;
+            padding: 0px 100px;
+
+            .title{
+                font-size: 60px;
+                line-height: 1em;
+                color: var(--avg-color);
+            }
+            .text{
+                margin-top: 25px;
+                font-size: 20px;
+                line-height: 1.5em;
+                color: var(--avg-color); 
+            }
+        }
+    }
 }

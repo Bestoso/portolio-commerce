@@ -28,7 +28,6 @@ export const Detail = () => {
 
     const onAdd = () => {
         addItem(productDetail, 1);
-        console.log(cart);
     }
 
     const locationBasedBg = () => {

@@ -534,7 +534,7 @@ body {
   flex-direction: column;
 }
 .detail__container .detail .text__container .buy .text-up::after {
-  content: "Buy now";
+  content: "Add to cart";
   position: absolute;
   width: 100%;
   height: 100%;
@@ -554,4 +554,161 @@ body {
      object-fit: contain;
   width: 100%;
   height: 100%;
+}
+
+.cart__container {
+  height: 100vh;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+.cart__container .main__text {
+  height: 50vh;
+  padding: 40px;
+}
+.cart__container .main__text .title {
+  font-size: 76px;
+  line-height: 1em;
+  color: var(--avg-color);
+}
+.cart__container .main__text .sub {
+  font-size: 30px;
+  color: var(--avg-color);
+}
+.cart__container .cart__form {
+  padding: 40px;
+  height: 50vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cart__container .cart__form .order__container {
+  width: 50%;
+}
+.cart__container .cart__form .order__container .total-price {
+  font-size: 30px;
+  color: var(--avg-color);
+}
+.cart__container .cart__form .order__container .order__text {
+  font-size: 20px;
+  color: var(--avg-color);
+  margin-bottom: 10px;
+}
+.cart__container .cart__form .order__container .order__text .title {
+  font-size: 30px;
+  color: var(--avg-color);
+}
+.cart__container .cart__form .order__container .order__text .price {
+  font-size: 20px;
+  color: var(--avg-color);
+}
+.cart__container .cart__form .order__container .order__text .quantity {
+  font-size: 20px;
+  color: var(--avg-color);
+}
+.cart__container .cart__form .order__container .order__form {
+  display: flex;
+  flex-direction: column;
+}
+.cart__container .cart__form .order__container .order__form .input__container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.cart__container .cart__form .order__container .order__form .input__container .input__title {
+  font-size: 20px;
+  color: var(--avg-color);
+  margin-bottom: 10px;
+}
+.cart__container .cart__form .order__container .order__form .input__container .input__field {
+  height: 40px;
+  width: 300px;
+  border: 1px solid var(--avg-color);
+  border-radius: 5px;
+  padding: 0px 10px;
+  font-size: 20px;
+  color: var(--avg-color);
+}
+.cart__container .cart__form .form__container {
+  width: 50%;
+}
+.cart__container .cart__form .form__container form {
+  display: flex;
+  flex-direction: column;
+}
+.cart__container .cart__form .form__container form .button__container {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+.cart__container .cart__form .form__container form .button__container .button {
+  width: 200px;
+  height: 50px;
+  border: none;
+  background-color: var(--avg-color);
+  color: var(--white);
+  margin-right: 15px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.cart__container .cart__form .form__container form .button__container .button:hover {
+  background-color: var(--white);
+  color: var(--avg-color);
+}
+.cart__container .cart__form .form__container form input {
+  width: 100%;
+  height: 40px;
+  margin-bottom: 20px;
+  border: none;
+  border-bottom: 1px solid var(--avg-color);
+  background-color: transparent;
+  color: var(--avg-color);
+  font-size: 20px;
+  outline: none;
+}
+.cart__container .cart__form .form__container form input:focus {
+  border-bottom: 1px solid var(--avg-color);
+}
+
+/* about section */
+.about-section {
+  padding: 40px;
+}
+.about-section .main-container {
+  height: 100vh;
+  width: 100%;
+  padding: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+.about-section .main-container .about-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  text-transform: uppercase;
+  font-size: 90px;
+  color: var(--avg-color);
+  font-weight: 400;
+}
+.about-section .main-container .about-container .about {
+  line-height: 1em;
+}
+.about-section .main-container .about-container .me {
+  line-height: 1em;
+  margin-left: 250px;
+}
+.about-section .main-container .about-text {
+  width: 70%;
+  margin-top: 150px;
+  padding: 0px 100px;
+}
+.about-section .main-container .about-text .title {
+  font-size: 60px;
+  line-height: 1em;
+  color: var(--avg-color);
+}
+.about-section .main-container .about-text .text {
+  margin-top: 25px;
+  font-size: 20px;
+  line-height: 1.5em;
+  color: var(--avg-color);
 }/*# sourceMappingURL=App.css.map */

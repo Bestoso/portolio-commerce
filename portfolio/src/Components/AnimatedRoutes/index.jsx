@@ -1,11 +1,10 @@
 import React from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { About } from '../Components/About';
-import { Contact } from '../Components/Contact';
-import { Home } from '../Components/Home';
+import { About } from '../About';
+import { Home } from '../ItemListContainer';
 import { AnimatePresence } from 'framer-motion'
-import { Detail } from '../Components/Detail';
-import { Cart } from '../Components/Cart';
+import { Detail } from '../DetailContainer';
+import { Cart } from '../Cart';
 
 export const AnimatedRoutes = () => {
 
@@ -18,9 +17,8 @@ export const AnimatedRoutes = () => {
                 <Route path='/inicio' element={ <Home />} />
                 <Route path='/products/:id' element={ <Detail />} />
                 <Route path='/about-me' element={ <About />} />
-                <Route path='/contact' element={ <Contact />} />
                 <Route path='/cart' element={ <Cart />} />
-                <Route path='*' element={ <div> new Error </div>} />
+                <Route path='*' element={ <div> Site is currently in development... Sorry!</div>} />
             </Routes>
         </AnimatePresence>
     )

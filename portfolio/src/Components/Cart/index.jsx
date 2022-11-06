@@ -1,13 +1,72 @@
-import React, { useContext } from 'react'
+import React, { useContext, useRef } from 'react'
 import { CartContext } from '../../Context/CartContext';
 import { addDoc, collection, getFirestore } from 'firebase/firestore';
+import { useThemeContext } from '../../Context/ThemeContext';
+import { useLocation } from 'react-router-dom';
+import Toastify from 'toastify-js';
 
 export const Cart = () => {
 
-    const { cart, setCart, price } = useContext(CartContext);
+    const nameRef = useRef(null);
+    const phoneRef = useRef(null);
+    const emailRef = useRef(null);
+    const { cart, price, clearCart } = useContext(CartContext);
+
+    const formValidation = (e) => {
+        e.preventDefault();
+        const regExps = {
+            name: /^[a-zA-ZÀ-ÿ\s]{1,40}$/,
+            phone: /^\d{7,14}$/,
+            email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
+        }
+        if (!regExps.name.test(nameRef.current.value)) {
+            Toastify({
+                text: "Please enter a valid name",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "linear-gradient(to right, #ff416c, #ff4b2b)",
+                stopOnFocus: true,
+            }).showToast();
+        } else if (!regExps.phone.test(phoneRef.current.value)) {
+            Toastify({
+                text: "Please enter a valid phone number",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "linear-gradient(to right, #ff416c, #ff4b2b)",
+                stopOnFocus: true,
+            }).showToast();
+        } else if (!regExps.email.test(emailRef.current.value)) {
+            Toastify({
+                text: "Please enter a valid email",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "linear-gradient(to right, #ff416c, #ff4b2b)",
+                stopOnFocus: true,
+            }).showToast();
+        } else {
+            generateOrder(e);
+            clearCart();
+            Toastify({
+                text: "Order sent successfully",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+                stopOnFocus: true,
+            }).showToast();
+        }
+    }
+
+
 
     const generateOrder = async (e) => {
-        e.preventDefault();
         const newOrder = {
             buyer: {
                 name: e.target.name.value,
@@ -28,30 +87,39 @@ export const Cart = () => {
         const db = getFirestore();
         const orders = collection(db, 'orders');
         const addNewOrder = await addDoc(orders, newOrder);
-
-        console.log(addNewOrder);
-        console.log(newOrder)
     }
 
-    console.log(cart)
     return (
-        <div>
-            {
-                cart.map((item, key) => (
-                    <div key={ key }>
-                        <p>{ item.title }</p>
-                        <p>{ item.price }</p>
-                        <p>{ item.quantity }</p>
+        <div className='cart__container'>
+        <div className='main__text'>
+            <p className='title'> Get in touch </p>
+            <p className='sub'> Lets start our Journey</p>
+        </div>
+        <div className='cart__form'>
+            <div className='order__container'>
+                {
+                    cart.map((item, key) => (
+                        <div key={ key } className='order__text'>
+                            <p className='title'>Product: { item.title }</p>
+                            <p className='price'>Price: ${ item.price }</p>
+                            <p className='quantity'>Quantity: { item.quantity }</p>
+                        </div>
+                    ))
+                }
+                <p className='total-price'>Total price: ${ price } </p>
+            </div>
+            <div className='form__container'>
+                <form>
+                    <input type="text" name="name" placeholder="Name" ref={nameRef}/>
+                    <input type="text" name="phone" placeholder="Phone" ref={phoneRef} />
+                    <input type="text" name="email" placeholder="Email"ref={emailRef} />
+                    <div className='button__container'>
+                        <button className='button' type="submit" onClick={ formValidation }> Confirm </button>
+                        <button className='button' onClick={ clearCart }> Cancel </button>
                     </div>
-                ))
-            }
-            <p> { price } </p>
-            <form onSubmit={ generateOrder }>
-                <input type="text" name="name" placeholder="Name" />
-                <input type="text" name="phone" placeholder="Phone" />
-                <input type="text" name="email" placeholder="Email" />
-                <button type="submit">Confirm</button>
-            </form>
+                </form>
+            </div>
+            </div>
         </div>
     )
 }

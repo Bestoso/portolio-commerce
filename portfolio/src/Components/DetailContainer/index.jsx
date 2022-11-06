@@ -3,6 +3,7 @@ import { useLocation, useParams } from 'react-router-dom'
 import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore'
 import { useThemeContext } from '../../Context/ThemeContext';
 import { useCartContext } from '../../Context/CartContext';
+import { useCursorContext } from '../../Context/CursorContext';
 
 export const Detail = () => {
 
@@ -11,6 +12,7 @@ export const Detail = () => {
     const location = useLocation();
     const { bgColor, setBgColor } = useThemeContext();
     const { cart, addItem } = useCartContext();
+    const { textEnter, textLeave } = useCursorContext();
 
     let locationArr = location.pathname.split('/');
     let actualLocation = locationArr[2];
@@ -58,8 +60,10 @@ export const Detail = () => {
                     <p className='subtitle'> { productDetail.subtitle } </p>
                     <p className='category'> { productDetail.category } </p>
                     <p className='buy'
-                    id={ productDetail.id }
-                    onClick={ onAdd }>
+                        id={ productDetail.id }
+                        onMouseEnter={textEnter}
+                        onMouseLeave={textLeave}
+                        onClick={ onAdd }>
                         <span className='text-up'>Begin the work</span>
                     </p>
                 </div>

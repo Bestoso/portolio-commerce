@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useCursorContext } from '../../Context/CursorContext'
 import { useStoreContext } from '../../Context/StoreContext'
 
 export const Projects = () => {
@@ -14,6 +15,8 @@ export const Projects = () => {
 }
 
 const Products = React.memo(() => {
+
+    const { textEnter, textLeave } = useCursorContext();
 
     const { product, getFireElements } = useStoreContext();
 
@@ -45,6 +48,8 @@ const Products = React.memo(() => {
                                 </p>
                                 <Link
                                     className='detailButton'
+                                    onMouseEnter={textEnter}
+                                    onMouseLeave={textLeave}
                                     to={'/products/' + project.id }> View more
                                 </Link>
                             </div>

@@ -8,6 +8,8 @@ import { Footer } from './Components/Footer';
 import { ThemeProvider } from './Context/ThemeContext';
 import { CartContextProvider } from './Context/CartContext';
 import { StoreContextProvider } from './Context/StoreContext';
+import { CustomCursor } from './Components/CustomCursor';
+import { CursorContextProvider } from './Context/CursorContext';
 
 
 function App() {
@@ -16,13 +18,16 @@ function App() {
     <CartContextProvider>
       <StoreContextProvider>
         <ThemeProvider>
+          <CursorContextProvider>
             <div className="App">
-              <BrowserRouter> 
+            <BrowserRouter> 
+            <CustomCursor />
                 <NavBar />
                 <AnimatedRoutes />
                 <Footer />
               </BrowserRouter>
             </div>
+            </CursorContextProvider>
           </ThemeProvider>
         </StoreContextProvider>
       </CartContextProvider>

@@ -1,15 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useCursorContext } from '../../Context/CursorContext'
 
 const TextToRight = () => {
+
+    const [transform, setTransform] = useState(0)
+
+    const handleScroll = () => {
+        window.addEventListener('scroll', () => {
+            setTransform(window.scrollY / 12)
+        })
+    }
+
+    useEffect(() => {
+        handleScroll();
+    }, [])
+    
+
+
     return (
         <div className='text-right animate__animated animate__fadeIn'>
-            <span className='right-text'> Frontend Developer </span>
+            <span className='right-text' style={{
+                transform: `translateX(${transform}px)`,
+            }}> Frontend Developer </span>
         </div>
     )
 }
 
 export const Bio = () => {
+
+    const { textEnter, textLeave } = useCursorContext();
+
     return (
         <>
             <TextToRight />
@@ -30,7 +51,12 @@ export const Bio = () => {
                         <div className='bio-buttons animate__animated animate__fadeIn'>
                             <Link to='/about-me'>
                                 <span className='circle'></span>
-                                <p className='text'>Learn More </p>
+                                <p
+                                    className='text'
+                                    onMouseEnter={textEnter}
+                                    onMouseLeave={textLeave}>
+                                    Learn More
+                                </p>
                             </Link>
                         </div>
                     </div>

@@ -63,13 +63,25 @@ export const NavBar = () => {
                                 </NavLink>
                             </li>
                             <li className='list-item'>
-                                <i className={'bx bxl-twitter ' + bgColor }></i>
+                                <a href='https://www.instagram.com/bestoso_/' target='_blank'
+                                    onMouseEnter={textEnter}
+                                    onMouseLeave={textLeave}>
+                                    <i className={'bx bxl-twitter ' + bgColor }></i>
+                                </a>
                             </li>
                             <li className='list-item'>
-                                <i className={'bx bxl-instagram-alt ' + bgColor}></i>
+                                <a href='https://www.instagram.com/s.bestoso/' target='_blank'
+                                    onMouseEnter={textEnter}
+                                    onMouseLeave={textLeave}>
+                                    <i className={'bx bxl-instagram-alt ' + bgColor}></i>
+                                </a>
                             </li>
                             <li className='list-item'>
-                                <i className={'bx bxl-github ' + bgColor}></i>
+                                <a href='https://github.com/Bestoso' target='_blank'
+                                    onMouseEnter={textEnter}
+                                    onMouseLeave={textLeave}>
+                                    <i className={'bx bxl-github ' + bgColor}></i>
+                                </a>
                             </li>
                             {
                                 cart.length > 0 &&

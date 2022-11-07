@@ -18,49 +18,28 @@ export const CartContextProvider = ({ children }) => {
     const addItem = (item, quantity = 1) => {
         if (isInCart(item.id)){
             setCart(cart.map(cartItem => cartItem.id === item.id ? {...cartItem, quantity: cartItem.quantity + quantity} : cartItem))
-            calcItemsTotalPrice();
+            setPrice(price + item.price * quantity);
             calcTotalItems();
-            Toastify({
-                text: "Item added to cart",
-                duration: 1000,
-                newWindow: true,
-                gravity: "bottom",
-                position: "right",
-                backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
-                stopOnFocus: true,
-            }).showToast();
+            showMessage();
         } else {
             setCart([...cart, {...item, quantity}]);
-            calcItemsTotalPrice();
+            console.log([...cart, {...item, quantity}])
+            setPrice(price + item.price * quantity);
             calcTotalItems();
-            Toastify({
-                text: "Item added to cart",
-                duration: 1000,
-                newWindow: true,
-                gravity: "bottom",
-                position: "right",
-                backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
-                stopOnFocus: true,
-            }).showToast();	
+            showMessage();
         }
     }
 
-    const addItemFixed = (item, quantity = 1) => {
-        if (isInCart(item.id) && cart.length > 0){
-            setCart(cart.map(cartItem => cartItem.id === item.id ? {...cartItem, quantity: cartItem.quantity + quantity} : cartItem))
-            calcItemsTotalPrice();
-            calcTotalItems();
-        } else {
-            setCart([...cart, {...item, quantity}]);
-            calcItemsTotalPrice();
-            calcTotalItems();
-        }
-    }
-
-    const calcItemsTotalPrice = () => {
-        const quantityMoreThanOne = cart.map(item => item.quantity > 1 ? item.price * item.quantity : item.price);
-        const totalPrice = quantityMoreThanOne.reduce((acc, item) => acc + item, 0);
-        setPrice(totalPrice);
+    const showMessage = () => {
+        Toastify({
+            text: "Item added to cart",
+            duration: 1000,
+            newWindow: true,
+            gravity: "bottom",
+            position: "right",
+            backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+            stopOnFocus: true,
+        }).showToast();	
     }
 
     const calcTotalItems = () => {

@@ -24,6 +24,7 @@
   --lightblue: #80c0c0;
   --blue: #6E87A9;
   --dark: #7cb1b1;
+  --black: #000000;
 }
 
 body {
@@ -165,9 +166,6 @@ body {
 }
 .navBar-container .navBar .navBar-menu .menu-list .list-item .item-link.blue {
   color: var(--white);
-}
-.navBar-container .navBar .navBar-menu .menu-list .list-item .item-link.active::after {
-  transform: translate(0%);
 }
 .navBar-container .navBar .navBar-menu .menu-list .list-item .item-link::after {
   content: "";

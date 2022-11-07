@@ -19,6 +19,7 @@
     --lightblue: #80c0c0;
     --blue: #6E87A9;
     --dark: #7cb1b1;
+    --black: #000000;
 }
 
 body {
@@ -169,12 +170,6 @@ body {
                         }
                         &.blue{
                             color: var(--white);
-                        }
-
-                        &.active{
-                            &::after{
-                                transform: translate(0%);
-                            }
                         }
 
                         &::after{

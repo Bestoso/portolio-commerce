@@ -1,36 +1,41 @@
-import './assets/css/App.css'
-import "toastify-js/src/toastify.css"
-import 'animate.css'
-import { BrowserRouter } from 'react-router-dom';
-import { NavBar } from './Components/NavBar';
-import { AnimatedRoutes } from './Components/AnimatedRoutes';
-import { Footer } from './Components/Footer';
-import { ThemeProvider } from './Context/ThemeContext';
-import { CartContextProvider } from './Context/CartContext';
-import { StoreContextProvider } from './Context/StoreContext';
-import { CustomCursor } from './Components/CustomCursor';
-import { CursorContextProvider } from './Context/CursorContext';
-
+import { Home } from "./components/Home"
+import { NavBar } from "./components/NavBar"
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { ErrorPage } from "./components/ErrorPage"
+import { Footer } from "./components/Footer"
+import { Commerce } from "./components/Commerce"
+import { Tutorials } from "./components/Tutorials"
+import { Contact } from "./components/Contact"
+import { ItemCategory } from "./components/ItemCategory"
+import { ItemDetail } from "./components/ItemDetail"
+import { CartContextProvider } from "./context/CartContext"
+import { Cart } from "./components/Cart"
+import { StoreContextProvider } from "./context/StoreContext"
 
 function App() {
 
   return (
-    <CartContextProvider>
-      <StoreContextProvider>
-        <ThemeProvider>
-          <CursorContextProvider>
-            <div className="App">
-            <BrowserRouter> 
-            <CustomCursor />
-                <NavBar />
-                <AnimatedRoutes />
-                <Footer />
-              </BrowserRouter>
-            </div>
-            </CursorContextProvider>
-          </ThemeProvider>
-        </StoreContextProvider>
+    <StoreContextProvider>
+      <CartContextProvider>
+        <div className="App">
+          <Router>
+            <NavBar />
+            <Routes>
+              <Route path='/' element={<Navigate to='/home' />} />
+              <Route path='/home' element={<Home />} />
+              <Route path='/category/tutorials' element={<Tutorials />} />
+              <Route path='/category/commerce' element={<Commerce />} />
+              <Route path='/category/commerce/:id' element={<ItemCategory />} />
+              <Route path='/category/contact' element={<Contact />} />
+              <Route path='/item/:itemId' element={<ItemDetail />} />
+              <Route path='/cart' element={<Cart />} />
+              <Route path='*' element={<ErrorPage />} />
+            </Routes>
+            <Footer />
+          </Router>
+        </div>
       </CartContextProvider>
+    </StoreContextProvider>
   )
 }
 

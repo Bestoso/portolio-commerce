@@ -1,125 +1,186 @@
-import React, { useContext, useRef } from 'react'
-import { CartContext } from '../../Context/CartContext';
+import React from 'react'
 import { addDoc, collection, getFirestore } from 'firebase/firestore';
-import { useThemeContext } from '../../Context/ThemeContext';
-import { useLocation } from 'react-router-dom';
-import Toastify from 'toastify-js';
+import { Link } from 'react-router-dom';
+import { useCartContext } from '../../context/CartContext';
+import Swal from "sweetalert2"
+import './style.css'
 
 export const Cart = () => {
 
-    const nameRef = useRef(null);
-    const phoneRef = useRef(null);
-    const emailRef = useRef(null);
-    const { cart, price, clearCart } = useContext(CartContext);
+    const { cart, setCart, clear, setQuantity, quantity, setPrice } = useCartContext();
 
-    const formValidation = (e) => {
-        e.preventDefault();
-        const regExps = {
-            name: /^[a-zA-ZÀ-ÿ\s]{1,40}$/,
-            phone: /^\d{7,14}$/,
-            email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
-        }
-        if (!regExps.name.test(nameRef.current.value)) {
-            Toastify({
-                text: "Please enter a valid name",
-                duration: 3000,
-                close: true,
-                gravity: "top",
-                position: "center",
-                backgroundColor: "linear-gradient(to right, #ff416c, #ff4b2b)",
-                stopOnFocus: true,
-            }).showToast();
-        } else if (!regExps.phone.test(phoneRef.current.value)) {
-            Toastify({
-                text: "Please enter a valid phone number",
-                duration: 3000,
-                close: true,
-                gravity: "top",
-                position: "center",
-                backgroundColor: "linear-gradient(to right, #ff416c, #ff4b2b)",
-                stopOnFocus: true,
-            }).showToast();
-        } else if (!regExps.email.test(emailRef.current.value)) {
-            Toastify({
-                text: "Please enter a valid email",
-                duration: 3000,
-                close: true,
-                gravity: "top",
-                position: "center",
-                backgroundColor: "linear-gradient(to right, #ff416c, #ff4b2b)",
-                stopOnFocus: true,
-            }).showToast();
-        } else {
-            generateOrder(e);
-            clearCart();
-            Toastify({
-                text: "Order sent successfully",
-                duration: 3000,
-                close: true,
-                gravity: "top",
-                position: "center",
-                backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
-                stopOnFocus: true,
-            }).showToast();
-        }
-    }
-
-
-
-    const generateOrder = async (e) => {
-        const newOrder = {
+    const createOrder = async e => {
+        const order = {
             buyer: {
                 name: e.target.name.value,
                 phone: e.target.phone.value,
-                email: e.target.email.value
+                email: e.target.email.value,
             },
             items: cart.map(item => {
                 return {
-                    id: item.id,
-                    title: item.title,
-                    price: item.price,
+                    id: item.item.id,
+                    title: item.item.name,
+                    price: item.item.price,
                     quantity: item.quantity
                 }
             }),
-            total: price
+            date: new Date(),
+            total: cart.reduce((acc, item) => acc + item.item.price * item.quantity, 0)
         }
-
         const db = getFirestore();
         const orders = collection(db, 'orders');
-        const addNewOrder = await addDoc(orders, newOrder);
+        const addNewOrder = await addDoc(orders, order);
     }
 
+    const removeItem = (item) => {
+        cart.splice(item, 1);
+        setCart([...cart]);
+        setQuantity(cart.reduce((acc, item) => acc + item.quantity, 0));
+    }
+
+
+    const formValidation = e => {
+        e.preventDefault()
+        const target = e.target
+        const values = {
+            name: target.name.value,
+            email: target.email.value,
+            repEmail: target.repEmail.value,
+            phone: target.phone.value,
+        }
+        const regExp = {
+            name: /^[a-zA-Z ]{3,30}$/,
+            email: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+            repEmail: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+            phone: /^\d{10}$/,
+        }
+        if (values.name === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please enter your name',
+            })
+        } else if (!regExp.name.test(values.name)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'The name must be between 3 and 30 characters long',
+            })
+        } else if (values.email === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please enter your email',
+            })
+        } else if (!regExp.email.test(values.email)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please enter a valid email!',
+            })
+        } else if (values.repEmail === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please repeat your email',
+            })
+        } else if (values.repEmail !== values.email) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'The emails do not match',
+            })
+        } else if (values.phone === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please enter your phone number',
+            })
+        } else if (!regExp.phone.test(values.phone)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please enter a valid phone number',
+            })
+        } else {
+            Swal.fire({
+                icon: 'success',
+                title: 'Your order has been placed successfully!',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            createOrder(e);
+            setCart([]);
+            setPrice(0);
+            setQuantity(0);
+        }
+    }
+
+    if (quantity < 1) {
+        return (
+            <div className="cart__section empty">
+                <h2 className='cart__title'>Your cart is empty</h2>
+                <Link to="/">
+                    <button className="btn">Go Home</button>
+                </Link>
+            </div>
+        )
+    } else {
     return (
-        <div className='cart__container'>
-        <div className='main__text'>
-            <p className='title'> Get in touch </p>
-            <p className='sub'> Lets start our Journey</p>
-        </div>
-        <div className='cart__form'>
-            <div className='order__container'>
-                {
-                    cart.map((item, key) => (
-                        <div key={ key } className='order__text'>
-                            <p className='title'>Product: { item.title }</p>
-                            <p className='price'>Price: ${ item.price }</p>
-                            <p className='quantity'>Quantity: { item.quantity }</p>
-                        </div>
-                    ))
-                }
-                <p className='total-price'>Total price: ${ price } </p>
+        <div className='cart__section'>
+            <div className='cart__container'>
+                <table className='cart__table'>
+                    <thead className='cart__table__header'>
+                        <tr>
+                            <th className='cart__table__title'>Product</th>
+                            <th className='cart__table__title'>Price</th>
+                            <th className='cart__table__title'>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody className='cart__table__body'>
+                    {
+                        cart.map((item, index) => {
+                            return (
+                                    <tr key={index}>
+                                        <td className='cart__table__item'>{item.item.name}</td>
+                                        <td className='cart__table__item'>${item.item.price}</td>
+                                        <td className='cart__table__item'>
+                                            <p>{item.quantity}</p>
+                                            <button className='delete__button' id={item.item.id} onClick={
+                                                e => {
+                                                    removeItem(item.item.id)
+                                                }
+                                            }><i className='bx bx-trash-alt'></i></button>
+                                        </td>
+                                    </tr>
+                                    )
+                                })
+                            }
+                                <tr className='cart__table__total'>
+                                    <td className='cart__table__item'>Total</td>
+                                    <td className='cart__table__item'>${cart.reduce((acc, item) => acc + item.item.price * item.quantity, 0)}</td>
+                                    <td className='cart__table__item'></td>
+                                </tr>
+                            </tbody>
+                </table>
             </div>
-            <div className='form__container'>
-                <form>
-                    <input type="text" name="name" placeholder="Name" ref={nameRef}/>
-                    <input type="text" name="phone" placeholder="Phone" ref={phoneRef} />
-                    <input type="text" name="email" placeholder="Email"ref={emailRef} />
-                    <div className='button__container'>
-                        <button className='button' type="submit" onClick={ formValidation }> Confirm </button>
-                        <button className='button' onClick={ clearCart }> Cancel </button>
+            <form className='form__container' onSubmit={formValidation}>
+                <div className='form'>
+                    <div className='form__group'>
+                        <label className='form__label'>Name</label>
+                        <input className='form__input' type='text' name='name'/>
+                        <label className='form__label'>Email</label>
+                        <input className='form__input' type='email' name='email'/>
+                        <label className='form__label'>Repeat Email</label>
+                        <input className='form__input' type='email' name='repEmail'/>
+                        <label className='form__label'>Phone</label>
+                        <input className='form__input' type='tel' name='phone'/>
                     </div>
-                </form>
-            </div>
-            </div>
+                    <button className='form__button'>Buy</button>
+                </div>
+            </form>
+            <button
+            onClick={clear} className='cancel__button'>Cancel</button>
         </div>
-    )
+    )}
 }

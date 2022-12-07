@@ -1,105 +1,103 @@
-import { useEffect } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import { useThemeContext } from '../../Context/ThemeContext';
-import { useCartContext } from '../../Context/CartContext';
-import { useCursorContext } from '../../Context/CursorContext';
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useCartContext } from '../../context/CartContext';
+import './style.css'
 
-export const NavBar = () => {
+const MenuElements = () => {
 
-    const location = useLocation();
-    const { bgColor, setBgColor } = useThemeContext();
-    const { cart, quantity } = useCartContext();
-    const { textEnter, textLeave } = useCursorContext();
+    const [menuState, setMenuState] = useState('menu__toggler');
+    const [navState, setNavState] = useState('navigable__links');
 
-    const setToDefault = () => {
-        if (location.pathname !== '/products/'){
-            setBgColor('default')
+
+    const toggleMenu = () => {
+        if(menuState === 'menu__toggler' && navState === 'navigable__links'){
+            setMenuState('menu__toggler active');
+            setNavState('navigable__links active');
+        } else {
+            setMenuState('menu__toggler');
+            setNavState('navigable__links');
         }
     }
 
-    useEffect(() => {
-        setToDefault();
-    }, [location])
-
     return (
         <>
-            <div className={'navBar-container ' + bgColor}
-            data-scroll-section
-            data-scroll>
-                <header className={'navBar ' + bgColor}>
-                    <div className='navBar-logo'>
-                        <p className='logo'> bestoso <span
-                            className='change'
-                            onMouseEnter={textEnter}
-                            onMouseLeave={textLeave}> &copy;2022</span></p>
-                    </div>
-                    <nav className='navBar-menu'>
-                        <ul className='menu-list'>
-                            <li className='list-item'>
-                                <NavLink
-                                    to='/inicio'
-                                    onMouseEnter={textEnter}
-                                    onMouseLeave={textLeave}
-                                    className={'item-link ' + bgColor}>
-                                    home
-                                </NavLink>
-                            </li>
-                            <li className='list-item'>
-                                <NavLink
-                                    to='/about-me'
-                                    onMouseEnter={textEnter}
-                                    onMouseLeave={textLeave}
-                                    className={'item-link ' + bgColor}>
-                                    about me
-                                </NavLink>
-                            </li>
-                            <li className={'list-item ' + bgColor}>
-                                <NavLink 
-                                    to='contact'
-                                    onMouseEnter={textEnter}
-                                    onMouseLeave={textLeave}
-                                    className={'item-link ' + bgColor}>
-                                    contact
-                                </NavLink>
-                            </li>
-                            <li className='list-item'>
-                                <a href='https://www.instagram.com/bestoso_/' target='_blank'
-                                    onMouseEnter={textEnter}
-                                    onMouseLeave={textLeave}>
-                                    <i className={'bx bxl-twitter ' + bgColor }></i>
-                                </a>
-                            </li>
-                            <li className='list-item'>
-                                <a href='https://www.instagram.com/s.bestoso/' target='_blank'
-                                    onMouseEnter={textEnter}
-                                    onMouseLeave={textLeave}>
-                                    <i className={'bx bxl-instagram-alt ' + bgColor}></i>
-                                </a>
-                            </li>
-                            <li className='list-item'>
-                                <a href='https://github.com/Bestoso' target='_blank'
-                                    onMouseEnter={textEnter}
-                                    onMouseLeave={textLeave}>
-                                    <i className={'bx bxl-github ' + bgColor}></i>
-                                </a>
-                            </li>
-                            {
-                                cart.length > 0 &&
-                                <li className='list-item'>
-                                    <NavLink
-                                        to='/cart'
-                                        onMouseEnter={textEnter}
-                                        onMouseLeave={textLeave}
-                                        className={'item-link ' + bgColor}>
-                                        <i className={'bx bx-cart ' + bgColor}></i>
-                                        <span className='cart-quantity'>{ quantity }</span>
-                                    </NavLink>
-                                </li>
-                            }
-                        </ul>
-                    </nav>
-                </header>
-            </div>
+        <div
+            className={menuState}
+            onClick={toggleMenu}>
+            <div className="toggler"></div>
+            <div className="toggler"></div>
+        </div>
+        <nav className={navState}>
+            <ul className="links">
+                <li className="link">
+                    <Link
+                        to="/"
+                        onClick={toggleMenu}>Home
+                    </Link>
+                </li>
+                <li className="link">
+                    <Link
+                        to="/category/tutorials"
+                        onClick={toggleMenu}>Tutorials
+                    </Link>
+                </li>
+                <li className="link">
+                    <a
+                        href="https://bestoso.github.io/portfolio-commerce/inicio"
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={toggleMenu}>Portfolio
+                    </a>
+                </li>
+                <li className="link">
+                    <Link
+                        to="/category/commerce"
+                        onClick={toggleMenu}>Commerce
+                    </Link>
+                </li>
+                <li className="link">
+                    <Link
+                        to="/category/contact"
+                        onClick={toggleMenu}>Contact
+                    </Link>
+                </li>
+            </ul>
+        </nav>
         </>
+    )
+}
+
+const LogoType = () => {
+
+    const { quantity } = useCartContext();
+
+    return (
+        <div className="logo__container">
+            <p className="logo">bestoso <span className='highlighted'>media</span></p>
+            <Link className="logo__info" to='/cart'>
+                <i className='bx bx-cart bx-flip-horizontal' />
+                { quantity > 0 && <span className='cart__quantity'>{quantity}</span> }
+            </Link>
+        </div>
+    )
+}
+
+export const NavBar = () => {
+
+    const [headerState, setHeaderState] = useState('header');
+
+    const toggleHeader = () => {
+        window.scrollY > 10 ? setHeaderState('header active') : setHeaderState('header');
+    }
+
+    useEffect(() => {
+        window.addEventListener('scroll', toggleHeader);
+    }, []);
+
+    return (
+        <header className={headerState}>
+            <MenuElements />
+            <LogoType />
+        </header>
     )
 }

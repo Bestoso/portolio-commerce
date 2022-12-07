@@ -1,22 +1,34 @@
 import React from 'react'
+import './style.css'
+import bestoso from '../../assets/images/bestoso.png'
+import one from '../../assets/images/1.jpeg'
+import { motion } from 'framer-motion'
 
 export const Banner = () => {
-    return (
 
-        <section className='hero-container'>
-            <div className='hero'>
-                <div className='text-section'>
-                    <h1 className='title'>
-                        <span className='title-span first animate__animated animate__fadeIn'> s.bestoso </span>
-                        <span className='title-span second animate__animated animate__fadeIn'> front developer. </span>
-                    </h1>
-                    <span className='based'>
-                        <p className='based-p animate__animated animate__fadeIn'> Web developer based in Argentina - Buenos Aires </p>
-                    </span>
-                    <p className='description'>
-                        <span className='description-span animate__animated animate__fadein'> I am really passionate about technology and programming. I like to create solutions and amazing web experiences. </span>
-                    </p>
+    return (
+        <section className='banner'>
+            <motion.div
+                initial={{ clipPath: 'circle(0% at 50% 50%)', opacity: 0 }}
+                whileInView={{ clipPath: 'circle(100% at 50% 50%)', opacity: 1 }}
+                transition={{ duration: .6 }}
+                className='pic__container'>
+                <img src={one} alt='main-image'/>
+            </motion.div>
+            <div className='main__container'>
+                <div className='mainimage__container'>
+                    <img src={ bestoso } alt='mainimage' />
                 </div>
+                <div className='text__container'>
+                        <p className='text'>
+                            <span>All your media</span>
+                            <span>in one place</span>
+                        </p>
+                        <p className='info'> Creating, Developing and Learning </p>
+                        <a href='#news'>
+                            <button className='more__button'>Learn more</button>
+                        </a>
+                    </div>
             </div>
         </section>
     )

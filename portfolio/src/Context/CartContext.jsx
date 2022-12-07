@@ -1,77 +1,79 @@
-import { useContext, useState, createContext } from "react";
-import Toastify from 'toastify-js'
+import { createContext, useContext, useState } from "react";
+import Swal from "sweetalert2"
 
-export const CartContext = createContext();
+const CartContext = createContext();
 
 export const useCartContext = () => useContext(CartContext);
 
 export const CartContextProvider = ({ children }) => {
 
-    const [ quantity, setQuantity ] = useState(0);
-    const [ cart, setCart ] = useState([]);
-    const [ price, setPrice ] = useState(0);
+const [cart, setCart] = useState([]);
+const [price, setPrice] = useState(0);
+const [quantity, setQuantity] = useState(0);
 
-    const isInCart = (id) => {
-        return cart.some(item => item.id === id)
+const isInCart = (item) => {
+    return cart.some((cartItem) => cartItem.item.id === item.id);
+};                                                                           
+
+const addItem = (item, quantity = 1) => {
+    if (isInCart(item)){
+        setCart(cart.map((cartItem) => {
+            if (cartItem.item.id === item.id){
+                setPrice(price + item.price * quantity);
+                setQuantity(calcTotalQuantity());
+                return {
+                    item,
+                    quantity: cartItem.quantity + quantity,
+                };
+            }
+            return cartItem;
+        }));
+    } else {
+        setCart([...cart, { item, quantity }]);
+        setPrice(price + item.price * quantity);
+        setQuantity(calcTotalQuantity());
     }
+};
 
-    const addItem = (item, quantity = 1) => {
-        if (isInCart(item.id)){
-            setCart(cart.map(cartItem => cartItem.id === item.id ? {...cartItem, quantity: cartItem.quantity + quantity} : cartItem))
-            setPrice(price + item.price * quantity);
-            calcTotalItems();
-            showMessage();
-        } else {
-            setCart([...cart, {...item, quantity}]);
-            console.log([...cart, {...item, quantity}])
-            setPrice(price + item.price * quantity);
-            calcTotalItems();
-            showMessage();
+const calcTotalQuantity = () => {
+    return cart.reduce((acc, item) => acc + item.quantity, 1);
+};
+
+const clear = () => {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, clear it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            setCart([]);
+            setPrice(0);
+            setQuantity(0);
+            Swal.fire(
+                'Cleared!',
+                'Your cart has been cleared.',
+                'success'
+            )
         }
-    }
-
-    const showMessage = () => {
-        Toastify({
-            text: "Item added to cart",
-            duration: 1000,
-            newWindow: true,
-            gravity: "bottom",
-            position: "right",
-            backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
-            stopOnFocus: true,
-        }).showToast();	
-    }
-
-    const calcTotalItems = () => {
-        setQuantity(cart.reduce((acc, item) => acc + item.quantity, 1));
-    }
-
-    const clearCart = (e) => {
-        e.preventDefault();
-        setCart([]);
-        setPrice(0);
-        setQuantity(0);
-        Toastify({
-            text: "Cart cleared",
-            duration: 1000,
-            newWindow: true,
-            gravity: "bottom",
-            position: "right",
-            backgroundColor: "linear-gradient(to right, #ff416c, #ff4b2b)",
-            stopOnFocus: true,
-        }).showToast();
-    }
+    })
+};
 
     return (
         <CartContext.Provider value={{
             cart,
             setCart,
-            addItem,
             price,
+            setPrice,
             quantity,
-            clearCart
+            setQuantity,
+            addItem,
+            clear,
         }}>
-            { children }
+            {children}
         </CartContext.Provider>
-    )
-}
+    );
+};

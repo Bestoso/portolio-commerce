@@ -1,32 +1,34 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react'
 import { collection, getDocs, getFirestore } from 'firebase/firestore'
 
+const storeContext = createContext();
 
-const StoreContext = createContext();
+export const useStoreContext = () => useContext(storeContext);
 
-export const useStoreContext = () => useContext(StoreContext);
+export const StoreContextProvider = ({ children }) => {
 
-export const StoreContextProvider = ({ children}) => {
+    const [loader, setLoader] = useState(true);
+    const [category, setCategory] = useState([]);
 
-    const [ product, setProduct ] = useState([]);
-
-    // get all the collection
-
-    const getFireElements = () => {
+    const getFireElements = async () => {
         const db = getFirestore();
-        const queryCollection = collection(db, 'products');
+        const queryCollection = collection(db, 'categories');
         getDocs(queryCollection)
-            .then(resp => setProduct(resp.docs.map(prod => ({ id: prod.id, ...prod.data()}))
-            ))
+            .then(resp => {
+                setCategory(resp.docs.map(doc => ({ id: doc.id, ...doc.data()})))
+                setLoader(false);
+            })
         }
 
     return (
-        <StoreContext.Provider value={{
-            product,
-            setProduct,
-            getFireElements
+        <storeContext.Provider value={{
+            getFireElements,
+            category,
+            setCategory,
+            loader,
+            setLoader
         }}>
-            { children }
-        </StoreContext.Provider>
+            {children}
+        </storeContext.Provider>
     )
 }

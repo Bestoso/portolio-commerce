@@ -1,5 +1,5 @@
 import React from 'react'
-import { addDoc, collection, getFirestore } from 'firebase/firestore';
+import { addDoc, collection, getFirestore, updateDoc } from 'firebase/firestore';
 import { Link } from 'react-router-dom';
 import { useCartContext } from '../../context/CartContext';
 import Swal from "sweetalert2"
@@ -18,18 +18,40 @@ export const Cart = () => {
             },
             items: cart.map(item => {
                 return {
-                    id: item.item.id,
+                    productId: item.item.id,
                     title: item.item.name,
                     price: item.item.price,
-                    quantity: item.quantity
+                    quantity: item.quantity,
                 }
             }),
+            state: 'pending revision',
             date: new Date(),
             total: cart.reduce((acc, item) => acc + item.item.price * item.quantity, 0)
         }
+
         const db = getFirestore();
         const orders = collection(db, 'orders');
-        const addNewOrder = await addDoc(orders, order);
+        addDoc(orders, order)
+            .then((docRef) => {
+                order.id = docRef.id
+                updateDoc(docRef, order);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Your order has been placed successfully!',
+                    text: 'Your order id is: ' + order.id,
+                    showConfirmButton: true,
+                })
+                setCart([]);
+                setPrice(0);
+                setQuantity(0);
+            })
+            .catch((error) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Error adding your product: ' + error,
+                })
+            });
     }
 
     const removeItem = (item) => {
@@ -103,16 +125,7 @@ export const Cart = () => {
                 text: 'Please enter a valid phone number',
             })
         } else {
-            Swal.fire({
-                icon: 'success',
-                title: 'Your order has been placed successfully!',
-                showConfirmButton: false,
-                timer: 1500
-            })
             createOrder(e);
-            setCart([]);
-            setPrice(0);
-            setQuantity(0);
         }
     }
 

@@ -16,7 +16,7 @@ export const ItemDetail = () => {
     const { addItem } = useCartContext();
 
     const handleAddItem = () => {
-        addItem(item, 1);
+        addItem(item);
         Swal.fire({
             icon: 'success',
             title: 'Item added to cart',
@@ -25,7 +25,6 @@ export const ItemDetail = () => {
         })
     }
 
-    
     const getOneProduct = async () => {
         const db = getFirestore();
         const q = collection(db, 'categories');
